@@ -13,6 +13,7 @@ import {
   Trophy,
   Plus,
   ChevronRight,
+  Activity,
 } from 'lucide-react';
 import {
   LineChart,
@@ -88,20 +89,25 @@ export function Dashboard() {
   }
 
   return (
-    <div className="pt-20 px-4 max-w-7xl mx-auto space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100">
-            Welcome back, {profile?.displayName || user?.email?.split('@')[0] || 'Athlete'}!
-          </h1>
-          <p className="text-slate-500 dark:text-slate-400 mt-1">Here's your fitness overview</p>
-        </div>
-        <Link to="/workouts/new">
-          <Button>
+    <div className="dashboard-page pt-20 px-4 max-w-7xl mx-auto space-y-6">
+      <div className="dashboard-hero">
+        <div className="dashboard-hero-copy">
+          <span className="dashboard-eyebrow"><span /> Personal performance</span>
+          <h1>Welcome back,<br /><span>{profile?.displayName || user?.email?.split('@')[0] || 'Athlete'}.</span></h1>
+          <p>Here's your fitness overview. Keep showing up and let the progress add up.</p>
+          <Link to="/workouts/new">
+            <Button className="!mt-5 !rounded-full !bg-lime-300 !px-5 !font-semibold !text-slate-950 hover:!bg-lime-200">
             <Plus className="w-4 h-4" />
             Start Workout
-          </Button>
-        </Link>
+            </Button>
+          </Link>
+        </div>
+        <div className="dashboard-hero-visual" aria-hidden="true">
+          <div className="dashboard-ring dashboard-ring-one" />
+          <div className="dashboard-ring dashboard-ring-two" />
+          <div className="dashboard-hero-core"><Activity className="h-10 w-10" /><span>FT</span></div>
+          <div className="dashboard-hero-caption"><span /> Stay in motion</div>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -135,31 +141,32 @@ export function Dashboard() {
                   <AreaChart data={weeklyVolume}>
                     <defs>
                       <linearGradient id="volumeGradient" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#6366f1" stopOpacity={0.3} />
-                        <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
+                        <stop offset="5%" stopColor="#b7f730" stopOpacity={0.28} />
+                        <stop offset="95%" stopColor="#66e5f2" stopOpacity={0} />
                       </linearGradient>
                     </defs>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" vertical={false} />
+                    <CartesianGrid strokeDasharray="3 3" stroke="#26313b" vertical={false} />
                     <XAxis
                       dataKey="date"
                       tickFormatter={date => formatDate(date, 'MMM d')}
-                      stroke="#94a3b8"
+                      stroke="#81909b"
                       fontSize={12}
                     />
-                    <YAxis stroke="#94a3b8" fontSize={12} tickFormatter={v => `${(v / 1000).toFixed(1)}k`} />
+                    <YAxis stroke="#81909b" fontSize={12} tickFormatter={v => `${(v / 1000).toFixed(1)}k`} />
                     <Tooltip
                       contentStyle={{
-                        backgroundColor: '#fff',
-                        border: '1px solid #e2e8f0',
+                        backgroundColor: '#121821',
+                        border: '1px solid #34414e',
                         borderRadius: '8px',
-                        boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)',
+                        color: '#edf2f6',
+                        boxShadow: '0 12px 30px rgba(0,0,0,.35)',
                       }}
                       formatter={(value: any, name: string | number | undefined) => value !== undefined ? [`${Number(value).toLocaleString()} kg`, String(name || 'Volume')] : ['', '']}
                     />
                     <Area
                       type="monotone"
                       dataKey="value"
-                      stroke="#6366f1"
+                      stroke="#b7f730"
                       strokeWidth={2}
                       fillOpacity={1}
                       fill="url(#volumeGradient)"
@@ -187,19 +194,20 @@ export function Dashboard() {
               <div className="h-64">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={weightTrend}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" vertical={false} />
+                    <CartesianGrid strokeDasharray="3 3" stroke="#26313b" vertical={false} />
                     <XAxis
                       dataKey="date"
                       tickFormatter={date => formatDate(date, 'MMM d')}
-                      stroke="#94a3b8"
+                      stroke="#81909b"
                       fontSize={12}
                     />
-                    <YAxis stroke="#94a3b8" fontSize={12} />
+                    <YAxis stroke="#81909b" fontSize={12} />
                     <Tooltip
                       contentStyle={{
-                        backgroundColor: '#fff',
-                        border: '1px solid #e2e8f0',
+                        backgroundColor: '#121821',
+                        border: '1px solid #34414e',
                         borderRadius: '8px',
+                        color: '#edf2f6',
                       }}
                       formatter={(value: any, name: string | number | undefined) => value !== undefined ? [`${Number(value)} kg`, String(name || 'Weight')] : ['', '']}
                     />

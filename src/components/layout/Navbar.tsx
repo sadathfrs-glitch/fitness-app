@@ -1,133 +1,105 @@
 import { Link, NavLink } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { Menu, X, LogOut, Dumbbell } from 'lucide-react';
+import { Activity, Apple, CalendarDays, ChartNoAxesCombined, Dumbbell, LayoutDashboard, LogOut, Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '../ui/Button';
 
 const navItems = [
-  { path: '/', label: 'Dashboard', icon: Dumbbell },
+  { path: '/', label: 'Overview', icon: LayoutDashboard },
   { path: '/workouts', label: 'Workouts', icon: Dumbbell },
-  { path: '/exercises', label: 'Exercises', icon: Dumbbell },
-  { path: '/progress', label: 'Progress', icon: Dumbbell },
-  { path: '/plans', label: 'Plans', icon: Dumbbell },
-  { path: '/nutrition', label: 'Nutrition', icon: Dumbbell },
+  { path: '/exercises', label: 'Exercises', icon: Activity },
+  { path: '/progress', label: 'Progress', icon: ChartNoAxesCombined },
+  { path: '/plans', label: 'Plans', icon: CalendarDays },
+  { path: '/nutrition', label: 'Nutrition', icon: Apple },
 ];
 
 export function Navbar() {
   const { user, profile, signOut, loading } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  if (loading) {
-    return (
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-700">
-        <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2 text-xl font-bold text-indigo-600 dark:text-indigo-400">
-            <Dumbbell className="w-8 h-8" />
-            FitTrack
-          </Link>
-        </div>
-      </nav>
-    );
-  }
-
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-700">
-      <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-2 text-xl font-bold text-indigo-600 dark:text-indigo-400">
-          <Dumbbell className="w-8 h-8" />
-          FitTrack
+    <nav className="site-nav fixed top-0 left-0 right-0 z-50">
+      <div className="mx-auto flex h-16 max-w-[1440px] items-center justify-between px-4 sm:px-6">
+        <Link to="/" className="flex shrink-0 items-center gap-2.5 text-lg font-bold tracking-tight text-slate-100">
+          <span className="site-brand-mark"><Dumbbell className="h-5 w-5" /></span>
+          <span>FitTrack<span className="text-lime-300">.</span></span>
         </Link>
 
-        <div className="hidden md:flex items-center gap-1">
-          {navItems.map(item => (
-            <NavLink
-              key={item.path}
-              to={item.path}
-              className={({ isActive }) => `
-                flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors
-                ${isActive
-                  ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-slate-100 dark:hover:bg-slate-800'
-                }
-              `}
-            >
-              {item.label}
-            </NavLink>
+        {!loading && user && (
+          <div className="hidden items-center gap-0.5 rounded-full border border-white/[0.07] bg-white/[0.025] p-1 lg:flex">
+            {navItems.map(item => {
+              const Icon = item.icon;
+              return (
+                <NavLink
+                  key={item.path}
+                  to={item.path}
+                  end={item.path === '/'}
+                  className={({ isActive }) => `site-nav-link flex items-center gap-2 rounded-full px-3 py-2 text-xs font-medium transition-all duration-200 ${
+                    isActive ? 'bg-lime-300/[0.12] text-lime-200' : 'text-slate-400 hover:bg-white/[0.05] hover:text-slate-100'
+                  }`}
+                >
+                  <Icon className="h-3.5 w-3.5" />{item.label}
+                </NavLink>
+              );
+            })}
+          </div>
+        )}
+
+        <div className="hidden items-center gap-3 md:flex">
+          {!loading && (user ? (
+            <>
+              <span className="max-w-[150px] truncate text-xs text-slate-400">{profile?.displayName || user.email}</span>
+              <Button variant="ghost" size="sm" aria-label="Sign out" onClick={signOut} className="!text-slate-300 hover:!text-lime-200">
+                <LogOut className="h-4 w-4" />
+              </Button>
+            </>
+          ) : (
+            <>
+              <Link to="/login"><Button variant="ghost" size="sm" className="!text-slate-300 hover:!text-white">Sign in</Button></Link>
+              <Link to="/signup"><Button size="sm" className="!rounded-full !bg-lime-300 !px-5 !font-semibold !text-slate-950 hover:!bg-lime-200">Get started</Button></Link>
+            </>
           ))}
         </div>
 
-        <div className="hidden md:flex items-center gap-3">
-          {user ? (
-            <div className="flex items-center gap-3">
-              <span className="text-sm text-slate-600 dark:text-slate-400 max-w-[150px] truncate">
-                {profile?.displayName || user.email}
-              </span>
-              <Button variant="ghost" size="sm" onClick={signOut}>
-                <LogOut className="w-4 h-4" />
-              </Button>
-            </div>
-          ) : (
-            <div className="flex items-center gap-2">
-              <Link to="/login">
-                <Button variant="ghost" size="sm">Sign In</Button>
-              </Link>
-              <Link to="/signup">
-                <Button size="sm">Get Started</Button>
-              </Link>
-            </div>
-          )}
-        </div>
-
         <button
-          className="md:hidden p-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+          className="rounded-xl border border-white/10 p-2 text-slate-300 transition-colors hover:border-lime-300/30 hover:text-lime-200 md:hidden"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-expanded={mobileMenuOpen}
           aria-controls="mobile-menu"
           aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
         >
-          {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
       </div>
 
       {mobileMenuOpen && (
-        <div id="mobile-menu" className="md:hidden py-4 border-t border-slate-200 dark:border-slate-700 animate-slide-down">
-          <div className="flex flex-col gap-1 px-2">
-            {navItems.map(item => (
-              <NavLink
-                key={item.path}
-                to={item.path}
-                className={({ isActive }) => `
-                  flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium transition-colors
-                  ${isActive
-                    ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-slate-100 dark:hover:bg-slate-800'
-                  }
-                `}
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {item.label}
-              </NavLink>
-            ))}
-            {user ? (
-              <div className="pt-4 border-t border-slate-200 dark:border-slate-700 flex items-center gap-3 px-2">
-                <span className="text-sm text-slate-600 dark:text-slate-400 flex-1 truncate">
-                  {profile?.displayName || user.email}
-                </span>
-                <Button variant="ghost" size="sm" onClick={() => { signOut(); setMobileMenuOpen(false); }}>
-                  <LogOut className="w-4 h-4" />
-                  Sign Out
-                </Button>
+        <div id="mobile-menu" className="animate-slide-down border-t border-white/[0.08] bg-[#0b1017]/95 px-4 py-4 backdrop-blur-xl lg:hidden">
+          <div className="mx-auto flex max-w-2xl flex-col gap-1">
+            {!loading && user && navItems.map(item => {
+              const Icon = item.icon;
+              return (
+                <NavLink
+                  key={item.path}
+                  to={item.path}
+                  end={item.path === '/'}
+                  className={({ isActive }) => `flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium ${isActive ? 'bg-lime-300/10 text-lime-200' : 'text-slate-300 hover:bg-white/5'}`}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <Icon className="h-4 w-4" />{item.label}
+                </NavLink>
+              );
+            })}
+            {!loading && (user ? (
+              <div className="mt-3 flex items-center justify-between border-t border-white/10 px-3 pt-4">
+                <span className="max-w-[65%] truncate text-xs text-slate-400">{profile?.displayName || user.email}</span>
+                <Button variant="ghost" size="sm" onClick={() => { signOut(); setMobileMenuOpen(false); }}><LogOut className="h-4 w-4" /> Sign out</Button>
               </div>
             ) : (
-              <div className="pt-4 border-t border-slate-200 dark:border-slate-700 flex flex-col gap-2 px-2">
-                <Link to="/login" onClick={() => setMobileMenuOpen(false)}>
-                  <Button variant="outline" className="w-full justify-center">Sign In</Button>
-                </Link>
-                <Link to="/signup" onClick={() => setMobileMenuOpen(false)}>
-                  <Button className="w-full justify-center">Get Started</Button>
-                </Link>
+              <div className="mt-3 grid grid-cols-2 gap-2 border-t border-white/10 pt-4">
+                <Link to="/login" onClick={() => setMobileMenuOpen(false)}><Button variant="outline" className="w-full justify-center">Sign in</Button></Link>
+                <Link to="/signup" onClick={() => setMobileMenuOpen(false)}><Button className="w-full justify-center !bg-lime-300 !text-slate-950">Get started</Button></Link>
               </div>
-            )}
+            ))}
           </div>
         </div>
       )}

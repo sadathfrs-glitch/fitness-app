@@ -5,6 +5,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
 import { Dumbbell } from 'lucide-react';
+import { AuthLayout } from '../../components/layout/AuthLayout';
 
 export function Signup() {
   const { signUp, loading: authLoading } = useAuth();
@@ -43,8 +44,8 @@ export function Signup() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-slate-50 dark:bg-slate-950">
-      <Card className="w-full max-w-md">
+    <AuthLayout>
+      <Card className="auth-card w-full max-w-md p-7 sm:p-9">
         <CardHeader className="text-center">
           <div className="flex justify-center mb-4">
             <div className="p-3 rounded-xl bg-indigo-100 dark:bg-indigo-900/30">
@@ -111,6 +112,6 @@ export function Signup() {
           </p>
         </CardFooter>
       </Card>
-    </div>
+    </AuthLayout>
   );
 }
