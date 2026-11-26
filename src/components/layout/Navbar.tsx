@@ -95,7 +95,7 @@ export function Navbar() {
                 <Button variant="ghost" size="sm" onClick={() => { signOut(); setMobileMenuOpen(false); }}><LogOut className="h-4 w-4" /> Sign out</Button>
               </div>
             ) : (
-              <div className="mt-3 grid grid-cols-2 gap-2 border-t border-white/10 pt-4">
+              <div className="mt-3 grid grid-cols-1 gap-2 border-t border-white/10 pt-4 min-[640px]:grid-cols-2">
                 <Link to="/login" onClick={() => setMobileMenuOpen(false)}><Button variant="outline" className="w-full justify-center">Sign in</Button></Link>
                 <Link to="/signup" onClick={() => setMobileMenuOpen(false)}><Button className="w-full justify-center !bg-lime-300 !text-slate-950">Get started</Button></Link>
               </div>
