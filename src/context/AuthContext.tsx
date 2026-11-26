@@ -42,25 +42,35 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         };
         setUser(userData);
 
-        const profileData = await firestoreService.getUserProfile(firebaseUser.uid);
-        if (profileData) {
-          setProfile(profileData);
-        } else {
-          const newProfile: UserProfile = {
-            uid: firebaseUser.uid,
-            email: firebaseUser.email!,
-            displayName: firebaseUser.displayName || undefined,
-            photoURL: firebaseUser.photoURL || undefined,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-          };
-          await firestoreService.createUserProfile(firebaseUser.uid, newProfile);
-          setProfile(newProfile);
+        try {
+          const profileData = await firestoreService.getUserProfile(firebaseUser.uid);
+          if (profileData) {
+            setProfile(profileData);
+          } else {
+            const newProfile: UserProfile = {
+              uid: firebaseUser.uid,
+              email: firebaseUser.email!,
+              displayName: firebaseUser.displayName || undefined,
+              photoURL: firebaseUser.photoURL || undefined,
+              createdAt: new Date(),
+              updatedAt: new Date(),
+            };
+            await firestoreService.createUserProfile(firebaseUser.uid, newProfile);
+            setProfile(newProfile);
+          }
+        } catch (error) {
+          console.error('Could not load the FitTrack profile from Firestore:', error);
+          setProfile(null);
         }
       } else {
         setUser(null);
         setProfile(null);
       }
+      setLoading(false);
+    }, error => {
+      console.error('Could not read the FitTrack sign-in state:', error);
+      setUser(null);
+      setProfile(null);
       setLoading(false);
     });
 
@@ -111,3 +121,4 @@ export function useAuth() {
   if (!context) throw new Error('useAuth must be used within AuthProvider');
   return context;
 }
+
