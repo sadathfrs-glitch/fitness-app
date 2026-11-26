@@ -13,6 +13,17 @@
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      (function () {
+        const params = new URLSearchParams(window.location.search);
+        const route = params.get('p');
+        if (!route) return;
+
+        const base = '%BASE_URL%'.replace(/\\/$/, '');
+        const normalizedRoute = route.startsWith('/') ? route : `/${route}`;
+        window.history.replaceState(null, '', `${base}${normalizedRoute}`);
+      })();
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Redirecting to FitTrack</title>
+    <script>
+      const base = '/fitness-app/';
+      const pathname = window.location.pathname;
+      const route = pathname.startsWith(base)
+        ? pathname.slice(base.length)
+        : pathname.replace(/^\\/+/, '');
+      const returnPath = `/${route}${window.location.search}${window.location.hash}`;
+      window.location.replace(`${base}?p=${encodeURIComponent(returnPath)}`);
+    </script>
+  </head>
+  <body></body>
+</html>
