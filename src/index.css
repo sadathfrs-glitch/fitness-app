@@ -369,16 +369,9 @@
 #modal-root { z-index: 9999; }
 
 @media (max-width: 850px) {
-  .auth-page { grid-template-columns: minmax(0, 1fr) minmax(340px, .9fr); }
-  .auth-showcase { padding: 3rem 2rem; }
-  .auth-headline { font-size: clamp(2.8rem, 7vw, 4.6rem); }
-  .auth-metrics { gap: 1.25rem; }
-}
-
-@media (max-width: 700px) {
   .auth-page { display: block; padding-top: 4rem; }
   .auth-showcase { display: none; }
-  .auth-main { min-height: calc(100svh - 4rem); padding: 2rem 1rem 1.5rem; border-left: 0; background: transparent; }
+  .auth-main { min-height: calc(100svh - 4rem); padding: 2rem 1.25rem 1.5rem; border-left: 0; background: transparent; }
   .auth-mobile-brand { display: flex; justify-content: center; margin-bottom: 1.5rem; }
   .auth-form-column { max-width: 30rem; }
 }
@@ -386,8 +379,39 @@
 @media (max-width: 700px) {
   .dashboard-hero { min-height: 15rem; }
   .dashboard-hero-visual { position: absolute; right: -4.5rem; bottom: -4rem; width: 14rem; height: 12rem; opacity: .48; }
-  .dashboard-hero-copy { max-width: 90%; }
+  .dashboard-hero-copy { max-width: 95%; }
+  .dashboard-hero h1 { font-size: clamp(1.9rem, 8vw, 2.5rem); overflow-wrap: anywhere; }
   .dashboard-hero-caption { display: none; }
+}
+
+@media (max-width: 640px) {
+  html, body { width: 100%; overflow-x: clip; }
+  #root { min-height: 100vh; overflow-x: clip; }
+  .mobile-menu { max-height: calc(100dvh - 4rem); overflow-y: auto; overscroll-behavior: contain; }
+  .site-nav button { min-width: 2.75rem; min-height: 2.75rem; }
+  .auth-main { padding-right: 1rem; padding-left: 1rem; }
+  .auth-card { padding: 1.25rem !important; border-radius: 1.25rem !important; }
+  .auth-card input:not([type="checkbox"]), .auth-card select { min-height: 2.9rem; font-size: 16px; }
+  .dashboard-page { padding-right: .875rem; padding-left: .875rem; }
+  .dashboard-page > .grid { gap: .75rem; }
+  .dashboard-stats > div { min-width: 0; padding: .875rem; }
+  .dashboard-stats > div > div { gap: .65rem; }
+  .dashboard-stats > div > div > div:first-child { padding: .55rem; }
+  .dashboard-stats > div > div > div:first-child svg { width: 1.15rem; height: 1.15rem; }
+  .dashboard-stats > div > div > div:last-child p:first-child { font-size: 1.15rem; line-height: 1.4; }
+  .dashboard-stats > div > div > div:last-child p:last-child { font-size: .72rem; line-height: 1.2; }
+  .dashboard-page .rounded-xl.border, .dashboard-page .rounded-2xl.border { min-width: 0; }
+  main > div.pt-20 { padding-top: 5.5rem; }
+  main > div.pt-20 > div:first-child > div:last-child { flex-wrap: wrap; }
+  main > div.pt-20 > div:first-child > div:last-child > * { flex: 1 1 auto; }
+  main > div.pt-20 > div:first-child > div:last-child button { justify-content: center; white-space: normal; }
+  main > div.pt-20 h1 { font-size: 1.5rem; line-height: 1.25; }
+  main > div.pt-20 p { overflow-wrap: anywhere; }
+  input:not([type="checkbox"]), select, textarea { font-size: 16px; }
+  [role="dialog"] { padding: .75rem !important; }
+  [role="dialog"] > div > div:last-child { max-height: calc(100dvh - 9rem); padding: 1rem; }
+  [role="dialog"] > div > div:first-child { padding: .875rem 1rem; }
+  [role="dialog"] .grid.grid-cols-2 { gap: .625rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -110,7 +110,7 @@ export function Dashboard() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="dashboard-stats grid grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((stat, i) => (
           <Card key={i} hover>
             <CardContent className="flex items-center gap-4">

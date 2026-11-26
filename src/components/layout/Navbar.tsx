@@ -62,7 +62,7 @@ export function Navbar() {
         </div>
 
         <button
-          className="rounded-xl border border-white/10 p-2 text-slate-300 transition-colors hover:border-lime-300/30 hover:text-lime-200 md:hidden"
+          className="rounded-xl border border-white/10 p-2 text-slate-300 transition-colors hover:border-lime-300/30 hover:text-lime-200 lg:hidden"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-expanded={mobileMenuOpen}
           aria-controls="mobile-menu"
@@ -73,7 +73,7 @@ export function Navbar() {
       </div>
 
       {mobileMenuOpen && (
-        <div id="mobile-menu" className="animate-slide-down border-t border-white/[0.08] bg-[#0b1017]/95 px-4 py-4 backdrop-blur-xl lg:hidden">
+        <div id="mobile-menu" className="mobile-menu animate-slide-down border-t border-white/[0.08] bg-[#0b1017]/95 px-4 py-4 backdrop-blur-xl lg:hidden">
           <div className="mx-auto flex max-w-2xl flex-col gap-1">
             {!loading && user && navItems.map(item => {
               const Icon = item.icon;
