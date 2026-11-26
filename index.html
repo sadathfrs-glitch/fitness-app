@@ -19,7 +19,7 @@
         const route = params.get('p');
         if (!route) return;
 
-        const base = '%BASE_URL%'.replace(/\\/$/, '');
+        const base = '%BASE_URL%'.slice(0, -1);
         const normalizedRoute = route.startsWith('/') ? route : `/${route}`;
         window.history.replaceState(null, '', `${base}${normalizedRoute}`);
       })();

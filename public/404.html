@@ -9,7 +9,7 @@
       const pathname = window.location.pathname;
       const route = pathname.startsWith(base)
         ? pathname.slice(base.length)
-        : pathname.replace(/^\\/+/, '');
+        : pathname.slice(1);
       const returnPath = `/${route}${window.location.search}${window.location.hash}`;
       window.location.replace(`${base}?p=${encodeURIComponent(returnPath)}`);
     </script>
