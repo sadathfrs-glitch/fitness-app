@@ -61,7 +61,7 @@ function AppRoutes() {
   }
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
         <Navbar />
         <main className="pb-12">
