@@ -11,6 +11,7 @@ import { Plans } from './pages/Plans';
 import { Nutrition } from './pages/Nutrition';
 import { Login } from './pages/auth/Login';
 import { Signup } from './pages/auth/Signup';
+import { firebaseConfigured } from './services/firebase';
 import './index.css';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -155,6 +156,20 @@ function AppRoutes() {
 }
 
 export default function App() {
+  if (!firebaseConfigured) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-950 px-6 text-white">
+        <section className="max-w-lg text-center">
+          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-indigo-300">FitTrack</p>
+          <h1 className="mt-5 text-4xl font-bold tracking-tight">Your training space is getting ready.</h1>
+          <p className="mt-4 text-base leading-7 text-slate-300">
+            We’re finishing the setup. Please check back soon.
+          </p>
+        </section>
+      </div>
+    );
+  }
+
   return (
     <AuthProvider>
       <AppProvider>
